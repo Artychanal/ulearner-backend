@@ -132,7 +132,10 @@ public class CourseService {
                 .orElseThrow(() -> new RuntimeException("Student not found"));
 
         course.getEnrolledStudents().add(student);
+        student.getEnrolledCourses().add(course);
+
         courseRepository.save(course);
+        userRepository.save(student);
     }
 
     public List<CourseDTO> getUserEnrolledCourses(String userEmail) {

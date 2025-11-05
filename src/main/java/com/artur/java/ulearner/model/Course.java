@@ -1,5 +1,6 @@
 package com.artur.java.ulearner.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -30,9 +31,12 @@ public class Course {
 
     @ManyToOne
     @JoinColumn(name = "instructor_id")
+    @JsonIgnore
     private User instructor;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @Builder.Default
+    @JsonIgnore
     private Set<Lesson> lessons = new HashSet<>();
 
     @ManyToMany
@@ -41,15 +45,21 @@ public class Course {
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
+    @Builder.Default
+    @JsonIgnore
     private Set<User> enrolledStudents = new HashSet<>();
 
     @ElementCollection
+    @Builder.Default
     private Set<String> features = new HashSet<>();
 
     @Column(updatable = false)
+    @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @Builder.Default
     private LocalDateTime updatedAt = LocalDateTime.now();
 
+    @Builder.Default
     private Boolean published = false;
 }

@@ -1,5 +1,6 @@
 package com.artur.java.ulearner.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -17,15 +18,22 @@ public class Progress {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "lesson_id")
+    @JsonIgnore
     private Lesson lesson;
 
+    @Builder.Default
     private Boolean completed = false;
+
+    @Builder.Default
     private Integer progressPercentage = 0;
 
     private LocalDateTime completedAt;
+
+    @Builder.Default
     private LocalDateTime lastAccessedAt = LocalDateTime.now();
 }
